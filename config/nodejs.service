@@ -1,0 +1,8 @@
+[Unit]
+
+
+[Service]
+ExecStart=/opt/nodejs.sh
+
+[Install]
+WantedBy=default.target
