@@ -7,8 +7,11 @@ ENV container docker
 # normal updates
 RUN yum -y update
 
-# nodejs npm
-RUN yum -y install nodejs npm iproute curl crontabs git
+# tools
+RUN yum -y install iproute curl crontabs git \
+ && curl --silent --location https://rpm.nodesource.com/setup_6.x | bash - \
+ && yum -y install nodejs npm \
+ && npm install forever -g
 
 # timezone
 RUN yum clean all \
@@ -16,11 +19,13 @@ RUN yum clean all \
  && rm -rf /etc/localtime \
  && ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
-# create nodejs directory
-RUN mkdir -p /opt/data
 
 COPY config/nodejs.service /etc/systemd/system/
 COPY config/nodejs.sh /opt/
+
+# create nodejs directory
+RUN mkdir -p /opt/data \
+ && chmod +x /opt/nodejs.sh
 
 RUN systemctl enable /etc/systemd/system/nodejs.service
 
