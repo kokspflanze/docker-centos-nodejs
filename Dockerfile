@@ -12,8 +12,8 @@ RUN yum -y install nodejs npm iproute curl crontabs git
 
 # timezone
 RUN yum clean all \
- && adduser nodeappuser
- && npm install forever -g
+ && adduser nodeappuser \
+ && npm install forever -g \
  && rm -rf /etc/localtime \
  && ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 
